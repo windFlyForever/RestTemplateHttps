@@ -15,7 +15,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -48,8 +50,9 @@ public class RestTemplateConfigNew {
 
             //信任所有的证书
             SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
+
             //setSSLHostnameVerifier忽略域名验证
-            builder.setSSLContext(sslContext).setSSLHostnameVerifier((s,sslSession)->true);
+            builder.setSSLContext(sslContext).setSSLHostnameVerifier((String s, SSLSession sslSession) ->true);
 
         }
 
